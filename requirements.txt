@@ -4,3 +4,4 @@ sty
 requests
 terminaltables
 yara-python
+ssdeep

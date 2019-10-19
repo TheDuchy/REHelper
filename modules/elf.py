@@ -5,7 +5,7 @@ from elftools.elf.sections import NullSection
 # ASCII shit
 from terminaltables import AsciiTable
 # Common shit
-from modules.utils import GREEN, RED, RESET, file_sha256sum, tinyurl, file_size, file_all_strings, file_interesting_strings, file_entropy
+from modules.utils import GREEN, RED, RESET, file_MD5sum, file_ssdeepsum, file_sha1sum, file_sha256sum, tinyurl, file_size, file_all_strings, file_interesting_strings, file_entropy
 
 def print_basic_info(filename: str) -> None:
     with open(filename, "rb") as f:
@@ -14,13 +14,16 @@ def print_basic_info(filename: str) -> None:
         # variables
         sections = ""
         debug = RED + "No" + RESET
-        filesha = file_sha256sum(filename)
-        vtlink = tinyurl("https://www.virustotal.com/gui/file/" + filesha)
+        fileMD5 = file_MD5sum(filename)
+        filesha1 = file_sha1sum(filename)
+        filesha256 = file_sha256sum(filename)
+        fileSSDEEP = file_ssdeepsum(filename)
+        vtlink = tinyurl("https://www.virustotal.com/gui/file/" + filesha256)
         
 
         # logic
         if not vtlink:
-            vtlink = "https://www.virustotal.com/gui/file/" + filesha
+            vtlink = "https://www.virustotal.com/gui/file/" + filesha256
         for x in range(elffile.num_sections()):
             if len(elffile.get_section(x).name) > 0:
                 sections += "{}{} {}({}) ".format(
@@ -40,7 +43,10 @@ def print_basic_info(filename: str) -> None:
             ["Filesize:", file_size(filename)],
             ["Filetype:", GREEN + "ELF " + str(elffile.get_machine_arch()) + RESET],
             ["Subsystem:", GREEN + describe_e_type(elffile.header['e_type']) + RESET],
-            ["SHA256:", filesha],
+            ["MD5: ", fileMD5],
+            ["SHA1: ", filesha1],
+            ["SHA256: ", filesha256],
+            ["SSDEEP:", fileSSDEEP],
             ["VT link:", vtlink],
             ["Symbols:", debug],
             ["Entropy:", str(file_entropy(filename))],

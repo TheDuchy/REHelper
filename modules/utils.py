@@ -12,6 +12,8 @@ import re
 import math
 # YARA shit
 import yara
+# SSDEEP shit
+import ssdeep
 
 
 RED = fg(255, 0, 0)
@@ -126,6 +128,20 @@ def file_sha256sum(filename: str) -> str:
     with open(filename,"rb") as f:
         bytes = f.read()
         return(hashlib.sha256(bytes).hexdigest())
+
+def file_sha1sum(filename: str) -> str:
+    with open(filename,"rb") as f:
+        bytes = f.read()
+        return(hashlib.sha1(bytes).hexdigest())
+
+def file_MD5sum(filename: str) -> str:
+    with open(filename,"rb") as f:
+        bytes = f.read()
+        return(hashlib.md5(bytes).hexdigest())
+
+def file_ssdeepsum(filename: str) -> str:
+    return ssdeep.hash_from_file(filename)
+
 # </steal>
 
 # Proudly stolen from:

@@ -3,7 +3,7 @@ import pefile
 # ASCII shit
 from terminaltables import AsciiTable
 # Common shit
-from modules.utils import GREEN, RED, RESET, file_sha256sum, tinyurl, file_size, file_all_strings, file_interesting_strings, file_entropy
+from modules.utils import GREEN, RED, RESET, file_MD5sum, file_ssdeepsum, file_sha1sum, file_sha256sum, tinyurl, file_size, file_all_strings, file_interesting_strings, file_entropy
 
 def print_basic_info(filename: str) -> None:
     pe_file = pefile.PE(filename, fast_load=True) # ELF object
@@ -11,13 +11,16 @@ def print_basic_info(filename: str) -> None:
     # variables
     sections = ""
     debug = RED + "No" + RESET
-    filesha = file_sha256sum(filename)
-    vtlink = tinyurl("https://www.virustotal.com/gui/file/" + filesha)
+    fileMD5 = file_MD5sum(filename)
+    filesha1 = file_sha1sum(filename)
+    filesha256 = file_sha256sum(filename)
+    fileSSDEEP = file_ssdeepsum(filename)
+    vtlink = tinyurl("https://www.virustotal.com/gui/file/" + filesha256)
     
 
     # logic
     if not vtlink:
-        vtlink = "https://www.virustotal.com/gui/file/" + filesha
+        vtlink = "https://www.virustotal.com/gui/file/" + filesha256
     for c, x in enumerate(pe_file.sections):
         if len(x.Name) > 0:
             sections += "{}{} {}({}) ".format(
@@ -37,7 +40,10 @@ def print_basic_info(filename: str) -> None:
         ["Filesize:", file_size(filename)],
         ["Filetype:", GREEN + "PE " + str(pefile.MACHINE_TYPE[pe_file.FILE_HEADER.Machine] + RESET)],
         ["Subsystem:", str(GREEN + pefile.SUBSYSTEM_TYPE[pe_file.OPTIONAL_HEADER.Subsystem] + RESET)],
-        ["SHA256:", filesha],
+        ["MD5: ", fileMD5],
+        ["SHA1: ", filesha1],
+        ["SHA256: ", filesha256],
+        ["SSDEEP:", fileSSDEEP],
         ["VT link:", vtlink],
         ["Symbols:", debug],
         ["Entropy:", str(file_entropy(filename))],
