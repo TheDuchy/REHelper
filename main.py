@@ -34,14 +34,14 @@ if args.verbose:
     # logic
     ## Interesting strings
     for x in interesting_strings:
-                string = ""
-                for c, y in enumerate(interesting_strings[x]):
-                    if c % 4 == 0 and c > 0:
-                        string += "\n"
-                    string += y + " "
-                if not string.strip():
-                    string = util.RED + "None" + util.RESET
-                tmp.append([x + ":", string])
+        string = ""
+        for c, y in enumerate(interesting_strings[x]):
+            if c % 4 == 0 and c > 0:
+                string += "\n"
+            string += y + " "
+            if not string.strip():
+                string = util.RED + "None" + util.RESET
+            tmp.append([x + ":", string])
 
     strings_table = [
                 ["Interesting Strings", "STILL IN BETA ;)"],
