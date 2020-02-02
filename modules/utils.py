@@ -1,18 +1,18 @@
-# System shit
+# System
 import sys, os
-# Crypto shit
+# Crypto
 import hashlib
-# Color shit
+# Color
 from sty import fg
-# Internet shit
+# Internet
 import requests
-# THIS FUCKING THING
+# Regex
 import re
-# OK lol
+# ...
 import math
-# YARA shit
+# YARA
 import yara
-# SSDEEP shit
+# SSDEEP
 import ssdeep
 
 
