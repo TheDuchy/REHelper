@@ -1,8 +1,8 @@
-# PE shit
+# PE
 import pefile
-# ASCII shit
+# ASCII
 from terminaltables import AsciiTable
-# Common shit
+# Common
 from modules.utils import GREEN, RED, RESET, file_MD5sum, file_ssdeepsum, file_sha1sum, file_sha256sum, tinyurl, file_size, file_all_strings, file_interesting_strings, file_entropy
 
 def print_basic_info(filename: str) -> None:
